@@ -30,7 +30,7 @@ bool canPlaceFlowers(int* flowerbed, int flowerbedSize, int n) {
         return true;
     else if (flowerbedSize == 1 && flowerbed[0] == 0 && n > 1)
     {
-        return false;
+        return true;
     }
     
     if (plantedFlowersCount(flowerbed, flowerbedSize) == n)
