@@ -24,6 +24,5 @@ char** summaryRanges(int* nums, int numsSize, int* returnSize) {
 int main() {
     int nums1[] = {0, 1, 2, 4, 5, 7};
     int nums2[] = {0, 2, 3, 4, 6, 8, 9};
-
     return 0;
 }
