@@ -7,6 +7,7 @@ Given an integer array nums, return true if any value appears at least twice in 
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
+#include <mysortlib.h>
 
 bool containsDuplicate_TLE(int* nums, int numsSize) {
     if (numsSize < 2)
@@ -23,8 +24,26 @@ bool containsDuplicate_TLE(int* nums, int numsSize) {
     return false;
 }
 
-bool containsDuplicate(int* nums, int numsSize) {
+bool containsDuplicateTLEBS(int* nums, int numsSize) {
+    bubbleSort(nums, numsSize);
 
+    for (int i = 1; i < numsSize; i++) {
+        if (nums[i] == nums[i - 1])
+            return true;
+    }
+    
+    return false;
+}
+
+bool containsDuplicate(int* nums, int numsSize) {
+    mergeSort(nums, 0, numsSize-1);
+
+    for (int i = 1; i < numsSize; i++) {
+        if (nums[i] == nums[i - 1])
+            return true;
+    }
+    
+    return false;
 }
 
 int main() {
@@ -34,6 +53,8 @@ int main() {
     for (int i = 0; i < arraySize; i++) {
         nums[i] = rand() % 10 + 1;
     }
+    printArray(nums, arraySize);
+    bubbleSort(nums, arraySize);
     printArray(nums, arraySize);
     printf("Result - %d", containsDuplicate(nums, arraySize));
     return 0;
