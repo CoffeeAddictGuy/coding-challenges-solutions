@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -10,7 +11,7 @@ static void lOperation(int n);
 int main() {
   FILE *fptr;
   char line[10];
-  fptr = fopen("adventofcode/2025/secret.txt", "r");
+  fptr = fopen("adventofcode/2025/1day_secret.txt", "r");
   if (fptr != NULL) {
     while (fgets(line, sizeof(line), fptr)) {
       int c = 0;
@@ -28,7 +29,7 @@ int main() {
       for (int i = 1; i <= c; i++) {
         test[i - 1] = &line[i];
       }
-      int res = atoi(*test);
+      int res = atoi(*test + 1);
       printf("Test - %d\n", res);
 
       if (line[0] == 'R') {
@@ -49,29 +50,22 @@ int main() {
 }
 
 void rOperation(int n) {
-  int t = start + n;
-  printf("%d + %d = %d\n", start, n, t);
-  while (t > 99) {
-    t -= 100;
-  }
-  start = t;
-  printf("Start now is %d\n", start);
-  if (t == 0)
-    resZero++;
+  int old = start;
+  int dist = n;
+  resZero += (old + dist) / 100;
+
+  start = (old + dist) % 100;
 }
 
 void lOperation(int n) {
-  int t = (start - n) % 100;
-  if (t < 10)
-    t += 100;
-  printf("%d - %d = %d\n", start, n, t);
-  if (t < 0)
-    t *= -1;
-  while (t > 99) {
-    t -= 100;
+  int old = start;
+  int dist = n;
+
+  int to = old - dist;
+
+  if (to < 0) {
+    resZero += (-to) / 100 + 1;
   }
-  start = t;
-  printf("Start now is %d\n", start);
-  if (t == 0)
-    resZero++;
+
+  start = (to % 100 + 100) % 100;
 }

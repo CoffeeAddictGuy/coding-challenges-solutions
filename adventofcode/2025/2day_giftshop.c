@@ -13,14 +13,51 @@ bool isRepeating(long long x) {
   if (n % 2 != 0)
     return false;
 
-  printf("%s\n", buf);
+  // printf("%s\n", buf);
 
   for (int i = 0; i < n / 2; i++) {
     int f = buf[i] - '0';
     int s = buf[i + n / 2] - '0';
-    printf("[%d] and [%d]\n", f, s);
+    // printf("[%d] and [%d]\n", f, s);
     if (f != s)
       return false;
+  }
+  return true;
+}
+
+bool isRepeatingTwo(long long x) {
+  char buf[12];
+  sprintf(buf, "%lld", x);
+  int n = strlen(buf);
+  if (n == 1)
+    return false;
+  int v = 0;
+  for (int i = 1; i < n; i++) {
+    if (buf[i - 1] != buf[i]) {
+      v = 1;
+      break;
+    }
+  }
+  if (v == 0)
+    printf("%s and its %d and size %d\n", buf, v, n);
+  // printf("%s and its %d\n", buf, v);
+  if (v == 1)
+    return false;
+  return true;
+}
+
+bool isRepeatingThree(long long x) {
+  char buf[12];
+  sprintf(buf, "%lld", x);
+  int n = strlen(buf);
+  if (n == 1)
+    return false;
+
+  int c = 2;
+  while (c + c <= n) {
+    for (int i = 0; i < c; i++) {
+    }
+    c++;
   }
   return true;
 }
@@ -30,6 +67,12 @@ void isValid(char *f, char *s, int fSize, int sSize) {
   long long to = atoll(s);
   for (long long x = from; x <= to; x++) {
     if (isRepeating(x)) {
+      // printf("REPEATING!");
+      res += x;
+    } else if (isRepeatingTwo(x)) {
+      // printf("REPEATING!");
+      res += x;
+    } else if (isRepeatingThree(x)) {
       // printf("REPEATING!");
       res += x;
     }

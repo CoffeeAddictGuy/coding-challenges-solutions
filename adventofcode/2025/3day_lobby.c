@@ -28,6 +28,8 @@ void highSum(char *line) {
     }
     t[0] = line[sI];
     t[1] = line[fI];
+  } else if (fI > 99 - 12) {
+
   } else {
     i = fI + 1;
     while (line[i] != '\0') {
