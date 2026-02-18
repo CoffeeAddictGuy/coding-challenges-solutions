@@ -6,10 +6,9 @@ Add the two numbers and return the sum as a linked list.
 You may assume the two numbers do not contain any leading zero, except the number 0 itself.
  */
 
-#include <asm-generic/errno.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/select.h>
 
 struct ListNode {
   int val;
@@ -23,12 +22,12 @@ struct ListNode *ListNodeInit(int value) {
   return new;
 }
 
-struct ListNode *ListNodeAdd(struct ListNode *list, int value) {
+struct ListNode *ListNodeAdd_Old(struct ListNode *list, int value) {
   if (list == NULL) {
     return ListNodeInit(value);
   }
   if (list->next != NULL) {
-    ListNodeAdd(list->next, value);
+    ListNodeAdd_Old(list->next, value);
   } else {
     struct ListNode *next = ListNodeInit(value);
     list->next = next;
@@ -36,61 +35,56 @@ struct ListNode *ListNodeAdd(struct ListNode *list, int value) {
   return list;
 }
 
+struct ListNode *ListNodeAdd(struct ListNode *list, int value) {
+  struct ListNode *new = ListNodeInit(value);
+  if (list == NULL) {
+    return new;
+  }
+  list->next = new;
+  return new;
+}
+
 struct ListNode *addTwoNumbers(struct ListNode *l1, struct ListNode *l2) {
-  struct ListNode *result = NULL;
+  struct ListNode *head = NULL;
+  struct ListNode *tail = NULL;
   int d = 0;
 
   struct ListNode *first = l1;
   struct ListNode *second = l2;
 
-  while (first != NULL && second != NULL) {
-    int sum = first->val + second->val + d;
+  while (first != NULL || second != NULL) {
+    int sum = 0;
+    if (first != NULL && second != NULL) {
+      sum = first->val + second->val + d;
+      first = first->next;
+      second = second->next;
+    } else if (first != NULL && second == NULL) {
+      sum = first->val + d;
+      first = first->next;
+    } else {
+      sum = second->val + d;
+      second = second->next;
+    }
+
     if (sum > 9) {
       d = 1;
       sum = sum - 10;
-      result = ListNodeAdd(result, sum);
     } else {
       d = 0;
-      result = ListNodeAdd(result, sum);
     }
-    first = first->next;
-    second = second->next;
-  }
 
-  if (first != NULL && second == NULL) {
-    while (first != NULL) {
-      int sum = first->val + d;
-      if (sum > 9) {
-        d = 1;
-        sum = sum - 10;
-        result = ListNodeAdd(result, sum);
-      } else {
-        d = 0;
-        result = ListNodeAdd(result, sum);
-      }
-      first = first->next;
-    }
-  }
-
-  if (second != NULL && first == NULL) {
-    while (second != NULL) {
-      int sum = second->val + d;
-      if (sum > 9) {
-        d = 1;
-        sum = sum - 10;
-        result = ListNodeAdd(result, sum);
-      } else {
-        d = 0;
-        result = ListNodeAdd(result, sum);
-      }
-      second = second->next;
+    if (head == NULL) {
+      head = ListNodeAdd(head, sum);
+      tail = head;
+    } else {
+      tail = ListNodeAdd(tail, sum);
     }
   }
 
   if (d != 0) {
-    result = ListNodeAdd(result, d);
+    tail = ListNodeAdd(tail, d);
   }
-  return result;
+  return head;
 }
 
 void ListNodePrint(struct ListNode *list) {
@@ -108,10 +102,19 @@ void ListNodePrint(struct ListNode *list) {
 
 int main() {
   struct ListNode *head_l1 = ListNodeInit(9);
-  ListNodeAdd(head_l1, 9);
-  ListNodeAdd(head_l1, 1);
+  ListNodeAdd_Old(head_l1, 9);
+  ListNodeAdd_Old(head_l1, 9);
+  ListNodeAdd_Old(head_l1, 9);
+  ListNodeAdd_Old(head_l1, 9);
+  ListNodeAdd_Old(head_l1, 9);
+  ListNodeAdd_Old(head_l1, 9);
 
-  struct ListNode *head_l2 = ListNodeInit(1);
+
+  struct ListNode *head_l2 = ListNodeInit(9);
+  ListNodeAdd_Old(head_l2, 9);
+  ListNodeAdd_Old(head_l2, 9);
+  ListNodeAdd_Old(head_l2, 9);
+
 
   ListNodePrint(head_l1);
   printf("=============\n");
