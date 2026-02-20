@@ -44,9 +44,6 @@ void printList(struct ListNode *head) {
   }
 }
 
-struct ListNode *swapList(struct ListNode *p, struct ListNode *a,
-                          struct ListNode *b) {}
-
 struct ListNode *swapPairs(struct ListNode *head) {
   if (head == NULL || head->next == NULL) {
     return head;
