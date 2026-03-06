@@ -27,7 +27,7 @@ bool isValid(char *s) {
 
   int str_len = strlen(s);
   printf("String Len %d\n", str_len);
-  int *stack = malloc(sizeof(int) * str_len);
+  int stack[str_len];
   int top = -1;
   for (int i = 0; i < str_len; i++) {
     if (top >= 0 && !isOpenBracket(s[i]) && !isBracketTwin(s[stack[top]], s[i])) {
