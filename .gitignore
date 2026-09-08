@@ -19,10 +19,6 @@ my_c_cpp_libs/
 *.swp
 *.swo
 
-<<<<<<< HEAD
-*.txt
-=======
 *.txt
 
 *.json
->>>>>>> 7f9e21e83215ddfa9009b99c15709948d935c458
