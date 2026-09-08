@@ -119,23 +119,37 @@ struct ListNode *removeElements(struct ListNode *head, int val) {
   return head;
 }
 
+struct ListNode *removeNthFromEnd(struct ListNode *head, int n) {
+  if (head == NULL) {
+    return NULL;
+  }
+  int c = 1;
+  struct ListNode *p = head;
+  head = head->next;
+  while (head != NULL) {
+    if (c == n && head->next != NULL) {
+      p->next = head->next;
+    } else if (c == n && head->next == NULL) {
+      p->next = NULL;
+    }
+    c++;
+    p = head;
+    head = head->next;
+  }
+  return head;
+}
+
 int main() {
   struct ListNode *test = ln_init(1);
+  test = ln_insert(test, 2);
+  test = ln_insert(test, 3);
+  test = ln_insert(test, 4);
+  test = ln_insert(test, 5);
+  test = ln_insert(test, 6);
+  test = ln_insert(test, 7);
 
   ln_print(test);
-
-  struct Result *new = ln_search(test, 22);
-  if (new != NULL && new->parent != NULL) {
-    printf("Found %p with value %d and parent %p with value %d\n", new->curr,
-           new->curr->val, new->parent, new->parent->val);
-  } else if (new != NULL) {
-    printf("Found in start %p with value %d and child %d\n", new->curr,
-           new->curr->val, new->curr->next->val);
-  } else {
-    printf("Not found!\n");
-  }
-
-  test = removeElements(test, 7);
+  test = removeNthFromEnd(test, 7);
   ln_print(test);
 
   return 0;

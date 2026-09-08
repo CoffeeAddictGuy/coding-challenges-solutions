@@ -18,3 +18,5 @@ my_c_cpp_libs/
 .idea/
 *.swp
 *.swo
+
+*.txt
